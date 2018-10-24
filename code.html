@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>Json解析代码 - Json.cn</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta http-equiv="Cache-Control" content="max-age=7200" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all" />
+    
+<meta name="keywords" content="json解析代码,javascript解析json,java解析json,php解析json,c#解析json,python解析json"/>
+<meta name="description" content="提供javascript、java、php、c#、python等各类主流编程语言解析json代码"/>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <style></style>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Favicons -->
+</head>
+<body style="over-flow:hidden;">
+<header class="header">
+    <div class="row-fluid" >
+        <div class="col-md-5" style="position:relative;">
+            <a class="logo" href="index.html">Json.<span style="color:#555;">junbaor.com</span></a>
+
+        </div>
+        <nav class="col-md-7" style="padding:10px 0;"  align="right">
+            <div  class="navi">
+                <a href="index.html" data-placement="bottom">在线解析</a>
+                
+                <a href="wiki.html"  data-placement="bottom">什么是Json</a>
+                <a href="code.html"  data-placement="bottom">Json解析代码</a>
+                <a href="component.html"  data-placement="bottom">Json组件</a>
+
+            </div>
+        </nav>
+        <br style="clear:both;" />
+    </div>
+</header>
+
+
+<main class="row-fluid">
+    <div class="col-md-8" style="padding:0;">
+        <div style="padding:40px 80px;;line-height:30px;">
+            <div id="content-body-wrapper">
+                <div id="content-body">
+                    <div class="line"></div>
+                                        <h4 id="javascript">Javascript:</h4><pre class="bg-warning" style="padding:20px;"><code>
+1.使用eval
+var parse_json_by_eval = function(str){
+    return eval('('+str+')');
+}
+var value = 1;
+var jsonstr = '{"name":"jifeng","company":"taobao","value":++value}';
+var json1 = parse_json_by_eval(jsonstr);
+console.log(json1);
+console.log('value: '+ value);
+執行結果：
+
+{ name: 'jifeng', company: 'taobao', value: 2 }
+value: 2
+2.使用JSON.parse
+var parse_json_by_JSON_parse = function(str){
+    return JSON.parse(str);
+}
+value = 1;
+var jsonstr = '{"name":"jifeng","company":"taobao"}';
+var json2 = parse_json_by_JSON_parse(jsonstr);
+console.log(json2);
+console.log(value);
+From：http://www.cnblogs.com/lengyuhong/archive/2012/01/07/2262390.html
+</code></pre>
+<div>
+以上代码来自博客：<a href="http://www.cnblogs.com/lengyuhong/archive/2012/01/07/2262390.html">http://www.cnblogs.com/lengyuhong/archive/2012/01/07/2262390.html</a></div>
+                    <h4 id="php">PHP:</h4><pre class="bg-warning" style="padding:20px;"><code>
+$json_string='{"id":1,"name":"jb51","email":"admin@jb51.net","interest":["wordpress","php"]} ';
+$obj=json_decode($json_string);
+echo $obj->name; //prints foo
+echo $obj->interest[1]; //prints php </code></pre>
+                   <h4 id="java">Java:</h4><pre class="bg-warning" style="padding:20px;"><code>
+JSONObject  dataJson=new JSONObject("你的Json数据“);
+JSONObject  response=dataJson.getJSONObject("response");
+JSONArray data=response.getJSONArray("data");
+JSONObject info=data.getJSONObject(0);
+String province=info.getString("province");
+String city=info.getString("city");
+String district=info.getString("district");
+String address=info.getString("address");
+ System.out.println(province+city+district+address);</code></pre>
+                    <h4 id="csharp">C#:</h4><pre class="bg-warning" style="padding:20px;"><code>
+使用开源的类库Newtonsoft.Json(下载地址http://json.codeplex.com/)。下载后加入工程就能用。通常可以使用JObject, JsonReader, JsonWriter处理。这种方式最通用，也最灵活，可以随时修改不爽的地方。
+(1)使用JsonReader读Json字符串：
+[csharp] view plaincopy
+string jsonText =@"{""input"" : ""value"",""output"" : ""result""}";
+JsonReader reader = new JsonTextReader(newStringReader(jsonText));
+while (reader.Read())
+{
+   Console.WriteLine(reader.TokenType + "\t\t" + reader.ValueType+ "\t\t" + reader.Value);
+}
+
+(2)使用JsonWriter写字符串：
+[csharp] view plaincopy
+StringWriter sw = new StringWriter();
+JsonWriter writer = new JsonTextWriter(sw);
+
+writer.WriteStartObject();
+writer.WritePropertyName("input");
+writer.WriteValue("value");
+writer.WritePropertyName("output");
+writer.WriteValue("result");
+writer.WriteEndObject();
+writer.Flush();
+
+string jsonText =sw.GetStringBuilder().ToString();
+Console.WriteLine(jsonText);
+
+(3)使用JObject读写字符串：
+[csharp] view plaincopy
+JObject jo = JObject.Parse(jsonText);
+string[] values =jo.Properties().Select(item => item.Value.ToString()).ToArray();
+
+(4)使用JsonSerializer读写对象(基于JsonWriter与JsonReader):
+数组型数据
+[csharp] view plaincopy
+string jsonArrayText1 ="[{'a':'a1','b':'b1'},{'a':'a2','b':'b2'}]";
+JArray ja =(JArray)JsonConvert.DeserializeObject(jsonArrayText1);
+string ja1a =ja[1]["a"].ToString();
+//或者
+JObject o = (JObject)ja[1];
+string oa = o["a"].ToString();
+ </code></pre>
+ <h4 id="python">Python:</h4><pre class="bg-warning" style="padding:20px;"><code>
+import json
+data= json.loads('{"ID": "2", "IP":"12.12.12.12", "Port": "3000", "Sensor_Count":"1", "Control_Count": "1", "Sensors":{"Sensor_Name": "tem", "Type_Count": "1", "Types":{ "types":["temp","C"],"types":["hum","N"],}},"Controls":["LCD","Relay"] }')
+print data['ID']
+输出结果:"2"
+data = json.dump(data)
+print data
+输出结果:{"ID": "2", "IP":"12.12.12.12", "Port": "3000", "Sensor_Count":"1", "Control_Count": "1", "Sensors":{"Sensor_Name": "tem", "Type_Count": "1", "Types":{ "types":["temp","C"],"types":["hum","N"],}},"Controls":["LCD","Relay"] }
+</code></pre>
+
+                    <div class="clear"></div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="col-md-3" style="padding:40px 20px;">
+        <div  style="padding:20px;margin:20px;line-height:30px;border-left:solid 1px #ddd;border:solid 1px #ddd;border-radius:5px;">
+            <div style="padding:10px;">
+                <h5>快速导航:</h5>
+                <div class="split"></div>
+                <div class="brief">
+                    <a href="code.html#javascript">javascript </a><br/>
+                    <a href="code.html#java">java </a><br/>
+                    <a href="code.html#php">php </a><br/>
+                    <a href="code.html#csharp">c# </a><br/>
+                    <a href="code.html#python">python </a><br/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br style="clear:both;" />
+</main>
+</body>
+</html>
