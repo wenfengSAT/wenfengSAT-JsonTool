@@ -53,16 +53,16 @@
     </div>
     <div class="col-md-7" style="padding:0;">
         <div style="padding:10px;font-size:16px;border-bottom:solid 1px #ddd;" class="navi">
-            <a href="index.html#" class="tip zip" title="压缩"  data-placement="bottom"><i class="fa fa-database"></i></a>
-			<a href="#" class="tip xml" title="" data-placement="bottom" data-original-title="转XML" style="color:#999;"><i class="fa fa-file-excel-o"></i></a>
-            <a href="index.html#" class="tip shown"  title="显示行号"  data-placement="bottom"><i class="glyphicon glyphicon-sort-by-order"></i></a>
-            <a href="index.html#" class="tip clear" title="清空"  data-placement="bottom"><i class="fa fa-trash"></i></a>
+            <a href="index.html#" class="tip zip" title="压缩"  data-placement="bottom" data-original-title="转XML" style="color:#999;"><i class="fa fa-database"></i></a>
+			<a href="index.html#" class="tip xml" title="转XML" data-placement="bottom" data-original-title="转XML" style="color:#999;"><i class="fa fa-file-excel-o"></i></a>
+            <a href="index.html#" class="tip shown"  title="显示行号"  data-placement="bottom" data-original-title="转XML" style="color:#999;"><i class="glyphicon glyphicon-sort-by-order"></i></a>
+            <a href="index.html#" class="tip clear" title="清空"  data-placement="bottom" data-original-title="转XML" style="color:#999;"><i class="fa fa-trash"></i></a>
         </div>
         <div id="right-box"  style="height:679px;border-right:solid 1px #ddd;border-bottom:solid 1px #ddd;border-radius:0;resize: none;overflow-y:scroll; outline:none;position:relative;">
             <div id="line-num" style="background-color:#fafafa;padding:0px 8px;float:left;border-right:dashed 1px #eee;display:none;z-index:-1;color:#999;position:absolute;text-align:center;over-flow:hidden;">
                 <div>0</div>
             </div>
-            <div class="ro" id="json-target" style="padding:0px 25px;over">
+            <div class="ro" id="json-target" style="padding:0px 25px;overflow-y:none">
             </div>
         </div>
         <form id="form-save" method="POST"><input type="hidden" value="" id="txt-content" name="content"></form>
@@ -130,11 +130,12 @@ $('#json-src').keyup(function(){
 
 });
 $('.xml').click(function(){
+    var height = $('#json-target').height();
     if (xml_flag) {
         $('#json-src').keyup();
     }else{
         var result = $.json2xml(current_json);
-        $('#json-target').html('<textarea style="width:100%;height:100%;border:0;resize:none;">'+result+'</textarea>');
+        $('#json-target').html('<textarea style="width:120%;height:640px;border:0;resize:none;">'+result+'</textarea>');
         xml_flag = true;
         $(this).attr('style','color:#15b374;');
     }
